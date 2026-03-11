@@ -197,10 +197,14 @@ jobs:
           mkdir -p "$DEB_ROOT/DEBIAN"
           mkdir -p "$DEB_ROOT/usr/local/bin"
           mkdir -p "$DEB_ROOT/usr/share/applications"
+          mkdir -p "$DEB_ROOT/usr/share/pixmaps"
 
           # Binary
           cp dist/synctabs-companion-linux-amd64 "$DEB_ROOT/usr/local/bin/synctabs-companion"
           chmod +x "$DEB_ROOT/usr/local/bin/synctabs-companion"
+
+          # Icon
+          cp extension/icons/icon48.png "$DEB_ROOT/usr/share/pixmaps/synctabs.png"
 
           # control file
           cat > "$DEB_ROOT/DEBIAN/control" << EOF
