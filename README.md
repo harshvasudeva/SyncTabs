@@ -154,7 +154,7 @@ The extension auto-detects the Companion within a few seconds. The status dot tu
 - The extension works in **Local Mode** on Chromebook.
 - **Sync Mode is not currently supported as a normal Chromebook install path**, because there is no ChromeOS companion build in this repo.
 - Some Linux-enabled Chromebooks may be able to run the Linux companion experimentally, but that is not an officially supported setup.
-- A Chromebook-friendly sync option is planned for a future release line. See [ROADMAP.md](ROADMAP.md).
+- A Chromebook-friendly sync option is planned for a future release line.
 
 ---
 
@@ -328,8 +328,6 @@ GOOS=linux GOARCH=amd64 go build -o synctabs-companion-linux-amd64 .
 - Add stronger localhost companion hardening.
 - Explore optional cloud sync and WebRTC relay modes for future releases.
 - Add a Chromebook-friendly sync path that does not depend on a native companion install.
-
-See [ROADMAP.md](ROADMAP.md) for the current plan.
 
 ---
 
