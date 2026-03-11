@@ -27,6 +27,8 @@ const INTERNAL_PROTOCOLS = ['chrome:', 'edge:', 'about:', 'chrome-extension:', '
 const COMPANION_URL = 'https://github.com/harshvasudeva';
 const AUTHOR_GITHUB = 'https://github.com/harshvasudeva';
 
+SyncTabsTheme.initFromStorage().catch(() => {});
+
 // ─── DOM Elements ─────────────────────────────────────────────────────────────
 const connectionDot = document.getElementById('connection-dot');
 const btnSync = document.getElementById('btn-sync');
@@ -72,6 +74,7 @@ async function init() {
     const response = await chrome.runtime.sendMessage({ type: 'get-state' });
     if (response) {
       state = response;
+      SyncTabsTheme.setPreference(state?.settings?.theme);
       render();
     }
   } catch (err) {

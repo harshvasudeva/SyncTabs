@@ -1,0 +1,40 @@
+{
+  "FixedFileInfo": {
+    "FileVersion": {
+      "Major": 1,
+      "Minor": 0,
+      "Patch": 0,
+      "Build": 0
+    },
+    "ProductVersion": {
+      "Major": 1,
+      "Minor": 0,
+      "Patch": 0,
+      "Build": 0
+    },
+    "FileFlagsMask": "3f",
+    "FileFlags": "",
+    "FileOS": "040004",
+    "FileType": "01",
+    "FileSubType": "00"
+  },
+  "StringFileInfo": {
+    "Comments": "Local WebSocket server for cross-browser tab sync",
+    "CompanyName": "Harsh Vasudeva",
+    "FileDescription": "SyncTabs Companion",
+    "FileVersion": "1.0.0.0",
+    "InternalName": "synctabs-companion",
+    "LegalCopyright": "Copyright (c) Harsh Vasudeva",
+    "OriginalFilename": "synctabs-companion.exe",
+    "ProductName": "SyncTabs Companion",
+    "ProductVersion": "1.0.0.0"
+  },
+  "VarFileInfo": {
+    "Translation": {
+      "LangID": "0409",
+      "CharsetID": "04B0"
+    }
+  },
+  "IconPath": "tray/icon_connected.ico",
+  "ManifestPath": "app.manifest"
+}
