@@ -1,9 +1,11 @@
-BINARY    = dist/synctabs-companion.exe
-INSTALLER = dist/SyncTabs-Companion-Setup.exe
-VERSION   = 1.0.0
-MODULE    = github.com/harshvasudeva/synctabs-companion
+BINARY_WIN    = dist/synctabs-companion.exe
+BINARY_DARWIN = dist/synctabs-companion-darwin
+BINARY_LINUX  = dist/synctabs-companion-linux
+INSTALLER     = dist/SyncTabs-Companion-Setup.exe
+VERSION       = 1.0.0
+MODULE        = github.com/harshvasudeva/synctabs-companion
 
-.PHONY: all build build-debug installer icons clean deps generate
+.PHONY: all build build-windows build-darwin build-linux build-debug installer icons clean deps generate
 
 all: build
 
@@ -17,13 +19,33 @@ generate: deps
 	go generate ./...
 
 ## Build the Windows executable (no console window, stripped)
-build: deps generate
+build: build-windows
+
+build-windows: deps generate
 	@mkdir -p dist
 	GOOS=windows GOARCH=amd64 go build \
 		-ldflags="-H windowsgui -s -w -X '$(MODULE)/config.AppVersion=$(VERSION)'" \
-		-o $(BINARY) .
-	@echo "Built: $(BINARY)"
-	@ls -lh $(BINARY)
+		-o $(BINARY_WIN) .
+	@echo "Built: $(BINARY_WIN)"
+	@ls -lh $(BINARY_WIN)
+
+## Build macOS executable (native arch, stripped)
+build-darwin: deps
+	@mkdir -p dist
+	CGO_ENABLED=1 go build \
+		-ldflags="-s -w -X '$(MODULE)/config.AppVersion=$(VERSION)'" \
+		-o $(BINARY_DARWIN) .
+	@echo "Built: $(BINARY_DARWIN)"
+	@ls -lh $(BINARY_DARWIN)
+
+## Build Linux executable (amd64, stripped)
+build-linux: deps
+	@mkdir -p dist
+	CGO_ENABLED=1 go build \
+		-ldflags="-s -w -X '$(MODULE)/config.AppVersion=$(VERSION)'" \
+		-o $(BINARY_LINUX) .
+	@echo "Built: $(BINARY_LINUX)"
+	@ls -lh $(BINARY_LINUX)
 
 ## Build with console visible (for development/debugging)
 build-debug: deps generate
@@ -34,7 +56,7 @@ build-debug: deps generate
 	@echo "Built: dist/synctabs-companion-debug.exe"
 
 ## Build NSIS installer (requires makensis on PATH)
-installer: build
+installer: build-windows
 	@which makensis > /dev/null 2>&1 || (echo "Error: makensis not found. Install NSIS." && exit 1)
 	makensis installer.nsi
 	@echo "Installer: $(INSTALLER)"

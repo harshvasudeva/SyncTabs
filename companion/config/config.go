@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sync"
 )
 
@@ -31,13 +32,29 @@ var (
 	cfgPath string
 )
 
-// AppDataDir returns %APPDATA%\SyncTabs
+// AppDataDir returns the platform-specific application data directory.
+//   - macOS:   ~/Library/Application Support/SyncTabs
+//   - Linux:   $XDG_DATA_HOME/SyncTabs  (fallback: ~/.local/share/SyncTabs)
+//   - Windows: %APPDATA%\SyncTabs
 func AppDataDir() string {
-	appData := os.Getenv("APPDATA")
-	if appData == "" {
-		appData = filepath.Join(os.Getenv("USERPROFILE"), "AppData", "Roaming")
+	switch runtime.GOOS {
+	case "darwin":
+		home, _ := os.UserHomeDir()
+		return filepath.Join(home, "Library", "Application Support", "SyncTabs")
+	case "linux":
+		dataHome := os.Getenv("XDG_DATA_HOME")
+		if dataHome == "" {
+			home, _ := os.UserHomeDir()
+			dataHome = filepath.Join(home, ".local", "share")
+		}
+		return filepath.Join(dataHome, "SyncTabs")
+	default: // windows
+		appData := os.Getenv("APPDATA")
+		if appData == "" {
+			appData = filepath.Join(os.Getenv("USERPROFILE"), "AppData", "Roaming")
+		}
+		return filepath.Join(appData, "SyncTabs")
 	}
-	return filepath.Join(appData, "SyncTabs")
 }
 
 // ConfigPath returns the path to config.json
