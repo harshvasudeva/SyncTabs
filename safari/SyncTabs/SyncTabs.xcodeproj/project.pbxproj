@@ -1,0 +1,645 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A74FA012F6187D4003A58CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A74FA002F6187D4003A58CB /* AppDelegate.swift */; };
+		3A74FA052F6187D4003A58CB /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA032F6187D4003A58CB /* Main.html */; };
+		3A74FA072F6187D4003A58CB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA062F6187D4003A58CB /* Icon.png */; };
+		3A74FA092F6187D4003A58CB /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA082F6187D4003A58CB /* Style.css */; };
+		3A74FA0B2F6187D4003A58CB /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA0A2F6187D4003A58CB /* Script.js */; };
+		3A74FA0D2F6187D4003A58CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A74FA0C2F6187D4003A58CB /* ViewController.swift */; };
+		3A74FA102F6187D4003A58CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA0E2F6187D4003A58CB /* Main.storyboard */; };
+		3A74FA122F6187D4003A58CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA112F6187D4003A58CB /* Assets.xcassets */; };
+		3A74FA192F6187D5003A58CB /* SyncTabs Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3A74FA182F6187D5003A58CB /* SyncTabs Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3A74FA1E2F6187D5003A58CB /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A74FA1D2F6187D5003A58CB /* SafariWebExtensionHandler.swift */; };
+		3A74FA372F6187D5003A58CB /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA2A2F6187D5003A58CB /* background.js */; };
+		3A74FA382F6187D5003A58CB /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA2B2F6187D5003A58CB /* icons */; };
+		3A74FA392F6187D5003A58CB /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA2C2F6187D5003A58CB /* manifest.json */; };
+		3A74FA3A2F6187D5003A58CB /* onboarding.css in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA2D2F6187D5003A58CB /* onboarding.css */; };
+		3A74FA3B2F6187D5003A58CB /* onboarding.html in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA2E2F6187D5003A58CB /* onboarding.html */; };
+		3A74FA3C2F6187D5003A58CB /* onboarding.js in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA2F2F6187D5003A58CB /* onboarding.js */; };
+		3A74FA3D2F6187D5003A58CB /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA302F6187D5003A58CB /* options.css */; };
+		3A74FA3E2F6187D5003A58CB /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA312F6187D5003A58CB /* options.html */; };
+		3A74FA3F2F6187D5003A58CB /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA322F6187D5003A58CB /* options.js */; };
+		3A74FA402F6187D5003A58CB /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA332F6187D5003A58CB /* popup.css */; };
+		3A74FA412F6187D5003A58CB /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA342F6187D5003A58CB /* popup.html */; };
+		3A74FA422F6187D5003A58CB /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA352F6187D5003A58CB /* popup.js */; };
+		3A74FA432F6187D5003A58CB /* theme.js in Resources */ = {isa = PBXBuildFile; fileRef = 3A74FA362F6187D5003A58CB /* theme.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3A74FA1A2F6187D5003A58CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A74F9F52F6187D3003A58CB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A74FA172F6187D5003A58CB;
+			remoteInfo = "SyncTabs Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3A74FA252F6187D5003A58CB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3A74FA192F6187D5003A58CB /* SyncTabs Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3A74F9FD2F6187D3003A58CB /* SyncTabs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SyncTabs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A74FA002F6187D4003A58CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3A74FA042F6187D4003A58CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		3A74FA062F6187D4003A58CB /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		3A74FA082F6187D4003A58CB /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		3A74FA0A2F6187D4003A58CB /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		3A74FA0C2F6187D4003A58CB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3A74FA0F2F6187D4003A58CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3A74FA112F6187D4003A58CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3A74FA132F6187D4003A58CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A74FA182F6187D5003A58CB /* SyncTabs Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SyncTabs Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A74FA1D2F6187D5003A58CB /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		3A74FA1F2F6187D5003A58CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A74FA2A2F6187D5003A58CB /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../extension/background.js; sourceTree = "<group>"; };
+		3A74FA2B2F6187D5003A58CB /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../extension/icons; sourceTree = "<group>"; };
+		3A74FA2C2F6187D5003A58CB /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../extension/manifest.json; sourceTree = "<group>"; };
+		3A74FA2D2F6187D5003A58CB /* onboarding.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = onboarding.css; path = ../../../extension/onboarding.css; sourceTree = "<group>"; };
+		3A74FA2E2F6187D5003A58CB /* onboarding.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = onboarding.html; path = ../../../extension/onboarding.html; sourceTree = "<group>"; };
+		3A74FA2F2F6187D5003A58CB /* onboarding.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = onboarding.js; path = ../../../extension/onboarding.js; sourceTree = "<group>"; };
+		3A74FA302F6187D5003A58CB /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../extension/options.css; sourceTree = "<group>"; };
+		3A74FA312F6187D5003A58CB /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../extension/options.html; sourceTree = "<group>"; };
+		3A74FA322F6187D5003A58CB /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../extension/options.js; sourceTree = "<group>"; };
+		3A74FA332F6187D5003A58CB /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = popup.css; path = ../../../extension/popup.css; sourceTree = "<group>"; };
+		3A74FA342F6187D5003A58CB /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../../extension/popup.html; sourceTree = "<group>"; };
+		3A74FA352F6187D5003A58CB /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../../extension/popup.js; sourceTree = "<group>"; };
+		3A74FA362F6187D5003A58CB /* theme.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = theme.js; path = ../../../extension/theme.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A74F9FA2F6187D3003A58CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A74FA152F6187D5003A58CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A74F9F42F6187D3003A58CB = {
+			isa = PBXGroup;
+			children = (
+				3A74F9FF2F6187D3003A58CB /* SyncTabs */,
+				3A74FA1C2F6187D5003A58CB /* SyncTabs Extension */,
+				3A74F9FE2F6187D3003A58CB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3A74F9FE2F6187D3003A58CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A74F9FD2F6187D3003A58CB /* SyncTabs.app */,
+				3A74FA182F6187D5003A58CB /* SyncTabs Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3A74F9FF2F6187D3003A58CB /* SyncTabs */ = {
+			isa = PBXGroup;
+			children = (
+				3A74FA002F6187D4003A58CB /* AppDelegate.swift */,
+				3A74FA0C2F6187D4003A58CB /* ViewController.swift */,
+				3A74FA0E2F6187D4003A58CB /* Main.storyboard */,
+				3A74FA112F6187D4003A58CB /* Assets.xcassets */,
+				3A74FA132F6187D4003A58CB /* Info.plist */,
+				3A74FA022F6187D4003A58CB /* Resources */,
+			);
+			path = SyncTabs;
+			sourceTree = "<group>";
+		};
+		3A74FA022F6187D4003A58CB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3A74FA032F6187D4003A58CB /* Main.html */,
+				3A74FA062F6187D4003A58CB /* Icon.png */,
+				3A74FA082F6187D4003A58CB /* Style.css */,
+				3A74FA0A2F6187D4003A58CB /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3A74FA1C2F6187D5003A58CB /* SyncTabs Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3A74FA292F6187D5003A58CB /* Resources */,
+				3A74FA1D2F6187D5003A58CB /* SafariWebExtensionHandler.swift */,
+				3A74FA1F2F6187D5003A58CB /* Info.plist */,
+			);
+			path = "SyncTabs Extension";
+			sourceTree = "<group>";
+		};
+		3A74FA292F6187D5003A58CB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3A74FA2A2F6187D5003A58CB /* background.js */,
+				3A74FA2B2F6187D5003A58CB /* icons */,
+				3A74FA2C2F6187D5003A58CB /* manifest.json */,
+				3A74FA2D2F6187D5003A58CB /* onboarding.css */,
+				3A74FA2E2F6187D5003A58CB /* onboarding.html */,
+				3A74FA2F2F6187D5003A58CB /* onboarding.js */,
+				3A74FA302F6187D5003A58CB /* options.css */,
+				3A74FA312F6187D5003A58CB /* options.html */,
+				3A74FA322F6187D5003A58CB /* options.js */,
+				3A74FA332F6187D5003A58CB /* popup.css */,
+				3A74FA342F6187D5003A58CB /* popup.html */,
+				3A74FA352F6187D5003A58CB /* popup.js */,
+				3A74FA362F6187D5003A58CB /* theme.js */,
+			);
+			name = Resources;
+			path = "SyncTabs Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3A74F9FC2F6187D3003A58CB /* SyncTabs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A74FA262F6187D5003A58CB /* Build configuration list for PBXNativeTarget "SyncTabs" */;
+			buildPhases = (
+				3A74F9F92F6187D3003A58CB /* Sources */,
+				3A74F9FA2F6187D3003A58CB /* Frameworks */,
+				3A74F9FB2F6187D3003A58CB /* Resources */,
+				3A74FA252F6187D5003A58CB /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A74FA1B2F6187D5003A58CB /* PBXTargetDependency */,
+			);
+			name = SyncTabs;
+			packageProductDependencies = (
+			);
+			productName = SyncTabs;
+			productReference = 3A74F9FD2F6187D3003A58CB /* SyncTabs.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3A74FA172F6187D5003A58CB /* SyncTabs Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A74FA222F6187D5003A58CB /* Build configuration list for PBXNativeTarget "SyncTabs Extension" */;
+			buildPhases = (
+				3A74FA142F6187D5003A58CB /* Sources */,
+				3A74FA152F6187D5003A58CB /* Frameworks */,
+				3A74FA162F6187D5003A58CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SyncTabs Extension";
+			packageProductDependencies = (
+			);
+			productName = "SyncTabs Extension";
+			productReference = 3A74FA182F6187D5003A58CB /* SyncTabs Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3A74F9F52F6187D3003A58CB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					3A74F9FC2F6187D3003A58CB = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					3A74FA172F6187D5003A58CB = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = 3A74F9F82F6187D3003A58CB /* Build configuration list for PBXProject "SyncTabs" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3A74F9F42F6187D3003A58CB;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3A74F9FE2F6187D3003A58CB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A74F9FC2F6187D3003A58CB /* SyncTabs */,
+				3A74FA172F6187D5003A58CB /* SyncTabs Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3A74F9FB2F6187D3003A58CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A74FA072F6187D4003A58CB /* Icon.png in Resources */,
+				3A74FA102F6187D4003A58CB /* Main.storyboard in Resources */,
+				3A74FA0B2F6187D4003A58CB /* Script.js in Resources */,
+				3A74FA052F6187D4003A58CB /* Main.html in Resources */,
+				3A74FA122F6187D4003A58CB /* Assets.xcassets in Resources */,
+				3A74FA092F6187D4003A58CB /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A74FA162F6187D5003A58CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A74FA402F6187D5003A58CB /* popup.css in Resources */,
+				3A74FA3A2F6187D5003A58CB /* onboarding.css in Resources */,
+				3A74FA3F2F6187D5003A58CB /* options.js in Resources */,
+				3A74FA372F6187D5003A58CB /* background.js in Resources */,
+				3A74FA3B2F6187D5003A58CB /* onboarding.html in Resources */,
+				3A74FA412F6187D5003A58CB /* popup.html in Resources */,
+				3A74FA432F6187D5003A58CB /* theme.js in Resources */,
+				3A74FA3E2F6187D5003A58CB /* options.html in Resources */,
+				3A74FA422F6187D5003A58CB /* popup.js in Resources */,
+				3A74FA392F6187D5003A58CB /* manifest.json in Resources */,
+				3A74FA3D2F6187D5003A58CB /* options.css in Resources */,
+				3A74FA382F6187D5003A58CB /* icons in Resources */,
+				3A74FA3C2F6187D5003A58CB /* onboarding.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3A74F9F92F6187D3003A58CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A74FA0D2F6187D4003A58CB /* ViewController.swift in Sources */,
+				3A74FA012F6187D4003A58CB /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A74FA142F6187D5003A58CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A74FA1E2F6187D5003A58CB /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3A74FA1B2F6187D5003A58CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A74FA172F6187D5003A58CB /* SyncTabs Extension */;
+			targetProxy = 3A74FA1A2F6187D5003A58CB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3A74FA032F6187D4003A58CB /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A74FA042F6187D4003A58CB /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		3A74FA0E2F6187D4003A58CB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A74FA0F2F6187D4003A58CB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3A74FA202F6187D5003A58CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3A74FA212F6187D5003A58CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		3A74FA232F6187D5003A58CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SyncTabs Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SyncTabs Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SyncTabs.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3A74FA242F6187D5003A58CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SyncTabs Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SyncTabs Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SyncTabs.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3A74FA272F6187D5003A58CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SyncTabs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SyncTabs;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SyncTabs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3A74FA282F6187D5003A58CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SyncTabs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SyncTabs;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SyncTabs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A74F9F82F6187D3003A58CB /* Build configuration list for PBXProject "SyncTabs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A74FA202F6187D5003A58CB /* Debug */,
+				3A74FA212F6187D5003A58CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A74FA222F6187D5003A58CB /* Build configuration list for PBXNativeTarget "SyncTabs Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A74FA232F6187D5003A58CB /* Debug */,
+				3A74FA242F6187D5003A58CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A74FA262F6187D5003A58CB /* Build configuration list for PBXNativeTarget "SyncTabs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A74FA272F6187D5003A58CB /* Debug */,
+				3A74FA282F6187D5003A58CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3A74F9F52F6187D3003A58CB /* Project object */;
+}
