@@ -1,4 +1,4 @@
-﻿// ─── SyncTabs Options Page Logic ──────────────────────────────────────────────
+// ─── SyncTabs Options Page Logic ──────────────────────────────────────────────
 
 const COMPANION_URL = 'https://github.com/harshvasudeva/sync-it-up/releases';
 const AUTHOR_GITHUB = 'https://github.com/harshvasudeva';
@@ -10,6 +10,7 @@ const browserIdEl = document.getElementById('browser-id');
 const toggleServer = document.getElementById('toggle-server');
 const inputServerUrl = document.getElementById('input-server-url');
 const toggleAutoDetect = document.getElementById('toggle-auto-detect');
+const inputBrowserName = document.getElementById('input-browser-name');
 const selectTheme = document.getElementById('select-theme');
 const btnSave = document.getElementById('btn-save');
 const btnTest = document.getElementById('btn-test');
@@ -45,6 +46,9 @@ async function init() {
       toggleServer.checked = settings.serverEnabled !== false;
       inputServerUrl.value = settings.serverUrl || 'ws://127.0.0.1:9234';
       toggleAutoDetect.checked = settings.serverAutoDetect !== false;
+      if (inputBrowserName) {
+        inputBrowserName.value = settings.browserNameOverride || '';
+      }
       if (selectTheme) {
         const theme = ['dark', 'light', 'system'].includes(settings.theme) ? settings.theme : 'dark';
         selectTheme.value = theme;
@@ -71,6 +75,7 @@ btnSave.addEventListener('click', async () => {
     serverEnabled: toggleServer.checked,
     serverUrl: inputServerUrl.value.trim() || 'ws://127.0.0.1:9234',
     serverAutoDetect: toggleAutoDetect.checked,
+    browserNameOverride: inputBrowserName ? inputBrowserName.value.trim() : '',
     theme: selectTheme ? selectTheme.value : 'dark',
   };
 
