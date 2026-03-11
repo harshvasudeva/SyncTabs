@@ -3,7 +3,7 @@ INSTALLER = dist/SyncTabs-Companion-Setup.exe
 VERSION   = 1.0.0
 MODULE    = github.com/harshvasudeva/synctabs-companion
 
-.PHONY: all build build-debug installer icons clean deps
+.PHONY: all build build-debug installer icons clean deps generate
 
 all: build
 
@@ -11,8 +11,13 @@ all: build
 deps:
 	go mod tidy
 
+## Generate Windows version info resource (.syso)
+generate: deps
+	go install github.com/josephspurrier/goversioninfo/cmd/goversioninfo@latest
+	go generate ./...
+
 ## Build the Windows executable (no console window, stripped)
-build: deps
+build: deps generate
 	@mkdir -p dist
 	GOOS=windows GOARCH=amd64 go build \
 		-ldflags="-H windowsgui -s -w -X '$(MODULE)/config.AppVersion=$(VERSION)'" \
@@ -21,7 +26,7 @@ build: deps
 	@ls -lh $(BINARY)
 
 ## Build with console visible (for development/debugging)
-build-debug: deps
+build-debug: deps generate
 	@mkdir -p dist
 	GOOS=windows GOARCH=amd64 go build \
 		-ldflags="-X '$(MODULE)/config.AppVersion=$(VERSION)-debug'" \
@@ -49,7 +54,7 @@ print('Icons created')"
 
 ## Clean build artifacts
 clean:
-	rm -rf dist/
+	rm -rf dist/ resource_windows.syso
 
 ## Verify build compiles (cross-compile check from non-Windows)
 verify:

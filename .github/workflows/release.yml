@@ -8,9 +8,10 @@ on:
 
 permissions:
   contents: write   # needed to create GitHub Releases
+  id-token: write   # needed for Azure OIDC (Trusted Signing)
 
 jobs:
-  # ── Windows ────────────────────────────────────────────────────────────────
+  # ── Windows (Build + Sign + Installer) ──────────────────────────────────────
   build-windows:
     runs-on: windows-latest
     steps:
@@ -20,16 +21,97 @@ jobs:
         with:
           go-version: "1.21"
 
+      - name: Set release version
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}" -replace '^v', ''
+          "RELEASE_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Generate Windows version info resource
+        working-directory: companion
+        run: |
+          $version = $env:RELEASE_VERSION
+          $parts = $version.Split('.')
+          $major = [int]$parts[0]
+          $minor = [int]$parts[1]
+          $patch = [int]$parts[2]
+          $versionQuad = "$version.0"
+          $versionInfo = Get-Content versioninfo.json | ConvertFrom-Json
+          $versionInfo.FixedFileInfo.FileVersion.Major = $major
+          $versionInfo.FixedFileInfo.FileVersion.Minor = $minor
+          $versionInfo.FixedFileInfo.FileVersion.Patch = $patch
+          $versionInfo.FixedFileInfo.ProductVersion.Major = $major
+          $versionInfo.FixedFileInfo.ProductVersion.Minor = $minor
+          $versionInfo.FixedFileInfo.ProductVersion.Patch = $patch
+          $versionInfo.StringFileInfo.FileVersion = $versionQuad
+          $versionInfo.StringFileInfo.ProductVersion = $versionQuad
+          $versionInfo | ConvertTo-Json -Depth 10 | Set-Content versioninfo.json
+          (Get-Content app.manifest) -replace 'version="[^"]+"', "version=""$versionQuad""" | Set-Content app.manifest
+          go install github.com/josephspurrier/goversioninfo/cmd/goversioninfo@latest
+          go generate ./...
+
       - name: Build Windows exe
         working-directory: companion
         run: |
-          go build -ldflags "-H windowsgui -X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" `
+          go build -ldflags "-H windowsgui -X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ env.RELEASE_VERSION }}" `
             -o ../dist/synctabs-companion-windows-amd64.exe .
+
+      # ── Code Signing (Azure Trusted Signing) ───────────────────────────────
+      # Prerequisites: Set up Azure Trusted Signing account and configure
+      # the following GitHub repository secrets:
+      #   AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET,
+      #   TRUSTED_SIGNING_ACCOUNT, TRUSTED_SIGNING_PROFILE,
+      #   TRUSTED_SIGNING_ENDPOINT (e.g. https://eus.codesigning.azure.net/)
+      - name: Sign Windows exe
+        if: ${{ vars.CODE_SIGNING_ENABLED == 'true' }}
+        uses: azure/trusted-signing-action@v0.5.0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.TRUSTED_SIGNING_ENDPOINT }}
+          trusted-signing-account-name: ${{ secrets.TRUSTED_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ secrets.TRUSTED_SIGNING_PROFILE }}
+          files-folder: dist/
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      # ── Build NSIS Installer ────────────────────────────────────────────────
+      - name: Install NSIS
+        run: choco install nsis -y
+
+      - name: Build installer
+        working-directory: companion
+        run: |
+          $version = $env:RELEASE_VERSION
+          (Get-Content installer.nsi) -replace '!define APP_VERSION\s+"[^"]+"', "!define APP_VERSION   `"$version`"" | Set-Content installer.nsi
+          (Get-Content installer.nsi) -replace "VIProductVersion `"[^`"]+`"", "VIProductVersion `"$version.0`"" | Set-Content installer.nsi
+          & "C:\Program Files (x86)\NSIS\makensis.exe" installer.nsi
+
+      - name: Sign installer
+        if: ${{ vars.CODE_SIGNING_ENABLED == 'true' }}
+        uses: azure/trusted-signing-action@v0.5.0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.TRUSTED_SIGNING_ENDPOINT }}
+          trusted-signing-account-name: ${{ secrets.TRUSTED_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ secrets.TRUSTED_SIGNING_PROFILE }}
+          files-folder: companion/dist/
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
 
       - uses: actions/upload-artifact@v4
         with:
           name: windows-amd64
-          path: dist/synctabs-companion-windows-amd64.exe
+          path: |
+            dist/synctabs-companion-windows-amd64.exe
+            companion/dist/SyncTabs-Companion-Setup.exe
 
   # ── macOS (Apple Silicon + Intel) ─────────────────────────────────────────
   build-macos:
@@ -41,6 +123,9 @@ jobs:
         with:
           go-version: "1.21"
 
+      - name: Set release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+
       # macOS systray requires CGo (Xcode Command Line Tools)
       - name: Install Xcode Command Line Tools
         run: |
@@ -51,7 +136,7 @@ jobs:
         working-directory: companion
         run: |
           go build \
-            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" \
+            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ env.RELEASE_VERSION }}" \
             -o ../dist/synctabs-companion-darwin-arm64 .
         env:
           GOARCH: arm64
@@ -61,7 +146,7 @@ jobs:
         working-directory: companion
         run: |
           go build \
-            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" \
+            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ env.RELEASE_VERSION }}" \
             -o ../dist/synctabs-companion-darwin-amd64 .
         env:
           GOARCH: amd64
@@ -84,6 +169,9 @@ jobs:
         with:
           go-version: "1.21"
 
+      - name: Set release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+
       - name: Install GTK dependencies (required for systray)
         run: |
           sudo apt-get update
@@ -95,13 +183,12 @@ jobs:
         working-directory: companion
         run: |
           go build \
-            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ github.ref_name }}" \
+            -ldflags "-X github.com/harshvasudeva/synctabs-companion/config.AppVersion=${{ env.RELEASE_VERSION }}" \
             -o ../dist/synctabs-companion-linux-amd64 .
 
       - name: Build .deb package
         run: |
-          VERSION="${{ github.ref_name }}"
-          VERSION="${VERSION#v}"   # strip leading 'v'
+          VERSION="${{ env.RELEASE_VERSION }}"
           DEB_ROOT="dist/deb/synctabs-companion_${VERSION}_amd64"
 
           mkdir -p "$DEB_ROOT/DEBIAN"
@@ -166,7 +253,8 @@ jobs:
             ### Download
             | Platform | File |
             |----------|------|
-            | Windows (x64) | `synctabs-companion-windows-amd64.exe` |
+            | **Windows Installer** | `SyncTabs-Companion-Setup.exe` |
+            | Windows (standalone) | `synctabs-companion-windows-amd64.exe` |
             | macOS (Apple Silicon) | `synctabs-companion-darwin-arm64` |
             | macOS (Intel) | `synctabs-companion-darwin-amd64` |
             | Linux (x64) | `synctabs-companion-linux-amd64` |
