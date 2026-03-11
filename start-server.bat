@@ -16,6 +16,20 @@ if %ERRORLEVEL% NEQ 0 (
 echo [OK] Node.js found: 
 node --version
 
+for /f "usebackq tokens=1 delims=." %%v in (`node -p "process.versions.node"`) do set NODE_MAJOR=%%v
+if %NODE_MAJOR% LSS 24 (
+    echo [ERROR] SyncTabs dev server requires Node.js 24 LTS.
+    echo Install Node.js 24 and try again.
+    pause
+    exit /b 1
+)
+if %NODE_MAJOR% GEQ 25 (
+    echo [ERROR] SyncTabs dev server is pinned to Node.js 24 LTS.
+    echo Switch to Node.js 24 for a supported development environment.
+    pause
+    exit /b 1
+)
+
 :: Install dependencies
 echo.
 echo [*] Installing server dependencies...

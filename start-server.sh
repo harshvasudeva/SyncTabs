@@ -13,6 +13,19 @@ fi
 
 echo "[OK] Node.js found: $(node --version)"
 
+NODE_MAJOR="$(node -p "process.versions.node.split('.')[0]")"
+if [ "$NODE_MAJOR" -lt 24 ]; then
+    echo "[ERROR] SyncTabs dev server requires Node.js 24 LTS."
+    echo "Install Node.js 24 and try again."
+    exit 1
+fi
+
+if [ "$NODE_MAJOR" -ge 25 ]; then
+    echo "[ERROR] SyncTabs dev server is pinned to Node.js 24 LTS."
+    echo "Switch to Node.js 24 for a supported development environment."
+    exit 1
+fi
+
 # Install dependencies
 echo ""
 echo "[*] Installing server dependencies..."

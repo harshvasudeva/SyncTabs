@@ -2,6 +2,7 @@
 
 const COMPANION_URL = 'https://github.com/harshvasudeva/sync-it-up/releases';
 const AUTHOR_GITHUB = 'https://github.com/harshvasudeva';
+const LOOPBACK_HOST = '127.0.0.1';
 
 // DOM elements
 const statusDot = document.getElementById('status-dot');
@@ -21,6 +22,33 @@ const btnClearRemote = document.getElementById('btn-clear-remote');
 const linkCompanion = document.getElementById('link-companion');
 
 SyncTabsTheme.initFromStorage().catch(() => {});
+
+function normalizeServerUrl(value) {
+  try {
+    const parsed = new URL(value || `ws://${LOOPBACK_HOST}:9234`);
+    const port = Number(parsed.port || '9234');
+    const isAllowed =
+      parsed.protocol === 'ws:' &&
+      parsed.hostname === LOOPBACK_HOST &&
+      !parsed.username &&
+      !parsed.password &&
+      !parsed.search &&
+      !parsed.hash &&
+      (parsed.pathname === '/' || parsed.pathname === '') &&
+      Number.isInteger(port) &&
+      port >= 1 &&
+      port <= 65535;
+
+    if (!isAllowed) return null;
+    return `ws://${LOOPBACK_HOST}:${port}`;
+  } catch {
+    return null;
+  }
+}
+
+function getPermissionOrigin(serverUrl) {
+  return `http://${LOOPBACK_HOST}/*`;
+}
 
 // Initialize
 async function init() {
@@ -71,9 +99,20 @@ async function init() {
 
 // Save settings
 btnSave.addEventListener('click', async () => {
+  const normalizedServerUrl = normalizeServerUrl(inputServerUrl.value.trim());
+  if (!normalizedServerUrl) {
+    savedMsg.textContent = 'Use ws://127.0.0.1:<port> only';
+    savedMsg.classList.add('show');
+    setTimeout(() => {
+      savedMsg.textContent = 'Saved!';
+      savedMsg.classList.remove('show');
+    }, 2500);
+    return;
+  }
+
   const newSettings = {
     serverEnabled: toggleServer.checked,
-    serverUrl: inputServerUrl.value.trim() || 'ws://127.0.0.1:9234',
+    serverUrl: normalizedServerUrl,
     serverAutoDetect: toggleAutoDetect.checked,
     browserNameOverride: inputBrowserName ? inputBrowserName.value.trim() : '',
     theme: selectTheme ? selectTheme.value : 'dark',
@@ -130,7 +169,7 @@ btnTest.addEventListener('click', async () => {
 btnGrantPerm.addEventListener('click', async () => {
   try {
     const granted = await chrome.permissions.request({
-      origins: ['http://127.0.0.1:9234/*']
+      origins: [getPermissionOrigin(inputServerUrl.value.trim())]
     });
     if (granted) {
       permStatus.textContent = '✅ Permission granted!';
@@ -261,8 +300,8 @@ btnSaveCompanion.addEventListener('click', async () => {
 // Port change (separate Apply button — requires restart + re-grant permission)
 btnApplyPort.addEventListener('click', async () => {
   const newPort = parseInt(companionPort.value, 10);
-  if (isNaN(newPort) || newPort < 1024 || newPort > 65535) {
-    alert('Invalid port. Must be between 1024 and 65535.');
+  if (isNaN(newPort) || newPort < 1 || newPort > 65535) {
+    alert('Invalid port. Must be between 1 and 65535.');
     return;
   }
 

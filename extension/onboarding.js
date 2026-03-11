@@ -10,7 +10,7 @@ document.getElementById('btn-settings').addEventListener('click', () => {
 
 document.getElementById('link-companion').addEventListener('click', (e) => {
   e.preventDefault();
-  chrome.tabs.create({ url: 'https://github.com/user/synctabs-companion/releases' });
+  chrome.tabs.create({ url: 'https://github.com/harshvasudeva/sync-it-up/releases' });
 });
 
 chrome.storage.onChanged.addListener((changes, areaName) => {

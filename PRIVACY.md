@@ -16,7 +16,7 @@ SyncTabs accesses:
 ## Where is data stored?
 
 - **Extension storage:** Your tabs and settings are saved in the browser's local extension storage (`chrome.storage.local`). This data never leaves your browser.
-- **Companion server (optional):** If you install the optional SyncTabs Companion app, tab data is transmitted over a **local WebSocket connection** (`127.0.0.1:9234` — your own machine) and stored in a JSON file on your computer.
+- **Companion server (optional):** If you install the optional SyncTabs Companion app, tab data is transmitted over a **local WebSocket connection** on `127.0.0.1` (default port `9234`, configurable to another localhost port) and stored in a JSON file on your computer.
 
 ## What data is transmitted?
 
@@ -25,7 +25,7 @@ SyncTabs accesses:
 
 ## Third-party services
 
-SyncTabs uses Google's favicon service (`https://www.google.com/s2/favicons`) to display website icons. This means Google may receive the domain names of websites you have open. This is the standard favicon service used by Chromium browsers and is optional (the extension works without it).
+SyncTabs does not send tab data to any third-party network service. External links in the UI may open GitHub release or profile pages when you click them, but the extension itself does not upload browsing data to GitHub or other third parties.
 
 ## Permissions explained
 
@@ -34,7 +34,7 @@ SyncTabs uses Google's favicon service (`https://www.google.com/s2/favicons`) to
 | `tabs` | Required to read your open browser tabs (URLs, titles, favicon URLs) |
 | `storage` | Required to save your tab data and extension settings locally |
 | `alarms` | Required to periodically save tabs and reconnect to the sync server |
-| `http://127.0.0.1:9234/*` (optional) | Required only if you want to use the Companion app for cross-browser sync. This connects to your own machine only. |
+| `http://127.0.0.1/*` (optional) | Required only if you want to use the Companion app for cross-browser sync. This connects to your own machine only. |
 
 ## Data retention
 

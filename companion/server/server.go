@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
 	"sync"
 	"time"
 
@@ -18,12 +19,38 @@ var upgrader = websocket.Upgrader{
 	ReadBufferSize:  4096,
 	WriteBufferSize: 4096,
 	CheckOrigin: func(r *http.Request) bool {
-		host, _, err := net.SplitHostPort(r.RemoteAddr)
-		if err != nil {
+		if !isLoopbackRemote(r.RemoteAddr) {
 			return false
 		}
-		return host == "127.0.0.1" || host == "::1"
+		return isAllowedRequestOrigin(r.Header.Get("Origin"))
 	},
+}
+
+func isLoopbackRemote(remoteAddr string) bool {
+	host, _, err := net.SplitHostPort(remoteAddr)
+	if err != nil {
+		return false
+	}
+	return host == "127.0.0.1" || host == "::1"
+}
+
+func isAllowedRequestOrigin(origin string) bool {
+	if origin == "" {
+		// Allow non-browser localhost clients and internal health/config probes.
+		return true
+	}
+
+	u, err := url.Parse(origin)
+	if err != nil {
+		return false
+	}
+
+	switch u.Scheme {
+	case "chrome-extension", "edge-extension", "moz-extension", "extension":
+		return u.Host != ""
+	default:
+		return false
+	}
 }
 
 // Server holds all server state.
@@ -180,14 +207,24 @@ func (s *Server) registerRoutes(mux *http.ServeMux) {
 // requireLocalhost rejects non-loopback connections.
 func (s *Server) requireLocalhost(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		host, _, err := net.SplitHostPort(r.RemoteAddr)
-		if err != nil || (host != "127.0.0.1" && host != "::1") {
+		if !isLoopbackRemote(r.RemoteAddr) {
 			http.Error(w, "Forbidden", http.StatusForbidden)
 			return
 		}
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		origin := r.Header.Get("Origin")
+		if !isAllowedRequestOrigin(origin) {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+			return
+		}
+
+		if origin != "" {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+			w.Header().Set("Vary", "Origin")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		}
+
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)
 			return

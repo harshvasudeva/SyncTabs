@@ -26,6 +26,7 @@ const INTERNAL_PROTOCOLS = ['chrome:', 'edge:', 'about:', 'chrome-extension:', '
 
 const COMPANION_URL = 'https://github.com/harshvasudeva';
 const AUTHOR_GITHUB = 'https://github.com/harshvasudeva';
+const LOOPBACK_HOST = '127.0.0.1';
 
 SyncTabsTheme.initFromStorage().catch(() => {});
 
@@ -102,18 +103,19 @@ function render() {
 
 function renderConnectionStatus() {
   const hasRemote = Object.keys(state.remoteBrowsers || {}).length > 0;
+  const browserLabel = state.browserName || 'This Browser';
   if (state.connected) {
     connectionDot.className = 'dot dot-online';
     connectionDot.title = 'Connected to SyncTabs Companion';
-    serverStatus.innerHTML = `<span class="mode-badge mode-sync">sync</span> ${state.browserName || 'This Browser'}`;
+    setServerStatus('sync', browserLabel);
   } else if (state.serverDetected || hasRemote) {
     connectionDot.className = 'dot dot-stale';
     connectionDot.title = 'Server offline — showing cached data';
-    serverStatus.innerHTML = `<span class="mode-badge mode-local">local</span> Server offline · cached data`;
+    setServerStatus('local', 'Server offline · cached data');
   } else {
     connectionDot.className = 'dot dot-offline';
     connectionDot.title = 'Local-only mode';
-    serverStatus.innerHTML = `<span class="mode-badge mode-local">local</span> ${state.browserName || 'This Browser'}`;
+    setServerStatus('local', browserLabel);
   }
 }
 
@@ -202,30 +204,55 @@ function renderRemoteBrowsers() {
 
     const section = document.createElement('section');
     section.className = 'section';
-    section.innerHTML = `
-      <div class="section-header">
-        <div class="section-title">
-          <span class="browser-icon">${iconHtml}</span>
-          <span>${name}</span>
-          <span class="tab-count">${tabCount}</span>
-          <span class="dot ${dotClass}" style="margin-left:6px"></span>
-          <span class="last-seen">${isOnline ? 'online' : lastSeenStr}</span>
-        </div>
-        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 9l6 6 6-6"/>
-        </svg>
-      </div>
-      <div class="tab-list"></div>
-    `;
+    const header = document.createElement('div');
+    header.className = 'section-header';
 
-    const tabList = section.querySelector('.tab-list');
+    const titleRow = document.createElement('div');
+    titleRow.className = 'section-title';
+
+    const iconWrap = document.createElement('span');
+    iconWrap.className = 'browser-icon';
+    setBrowserIconElement(iconWrap, name);
+
+    const nameEl = document.createElement('span');
+    nameEl.textContent = name;
+
+    const countEl = document.createElement('span');
+    countEl.className = 'tab-count';
+    countEl.textContent = String(tabCount);
+
+    const dotEl = document.createElement('span');
+    dotEl.className = `dot ${dotClass}`;
+    dotEl.style.marginLeft = '6px';
+
+    const lastSeenEl = document.createElement('span');
+    lastSeenEl.className = 'last-seen';
+    lastSeenEl.textContent = isOnline ? 'online' : lastSeenStr;
+
+    const chevronWrap = document.createElement('div');
+    chevronWrap.innerHTML = `<svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>`;
+
+    titleRow.appendChild(iconWrap);
+    titleRow.appendChild(nameEl);
+    titleRow.appendChild(countEl);
+    titleRow.appendChild(dotEl);
+    titleRow.appendChild(lastSeenEl);
+    header.appendChild(titleRow);
+    header.appendChild(chevronWrap.firstChild);
+
+    const tabList = document.createElement('div');
+    tabList.className = 'tab-list';
+
+    section.appendChild(header);
+    section.appendChild(tabList);
+
     if (tabCount === 0) {
       tabList.innerHTML = '<div class="empty-state"><p>No tabs saved</p></div>';
     } else {
       for (const tab of visibleTabs) tabList.appendChild(createTabElement(tab, false));
     }
 
-    section.querySelector('.section-header').addEventListener('click', () => {
+    header.addEventListener('click', () => {
       section.classList.toggle('collapsed');
     });
 
@@ -454,8 +481,19 @@ function handleSendTab(e, tab) {
     const item = document.createElement('div');
     item.className = 'send-dropdown-item';
     const dotClass = data.online ? 'dot-online' : 'dot-stale';
-    const iconHtml = getBrowserIconHtml(data.browserName, 'send-dropdown-icon-img');
-    item.innerHTML = `<span class="send-dropdown-icon">${iconHtml}</span><span>${data.browserName}</span><span class="dot ${dotClass}"></span>`;
+    const iconWrap = document.createElement('span');
+    iconWrap.className = 'send-dropdown-icon';
+    setBrowserIconElement(iconWrap, data.browserName);
+
+    const label = document.createElement('span');
+    label.textContent = data.browserName;
+
+    const dot = document.createElement('span');
+    dot.className = `dot ${dotClass}`;
+
+    item.appendChild(iconWrap);
+    item.appendChild(label);
+    item.appendChild(dot);
     item.addEventListener('click', async (ev) => {
       ev.preventDefault();
       ev.stopPropagation();
@@ -514,6 +552,15 @@ function getBrowserIconHtml(name, imgClass) {
   return `<img class="${imgClass}" src="${src}" alt="">`;
 }
 
+function setServerStatus(mode, text) {
+  serverStatus.textContent = '';
+  const badge = document.createElement('span');
+  badge.className = `mode-badge ${mode === 'sync' ? 'mode-sync' : 'mode-local'}`;
+  badge.textContent = mode;
+  serverStatus.appendChild(badge);
+  serverStatus.appendChild(document.createTextNode(` ${text}`));
+}
+
 function setBrowserIconElement(el, name) {
   const src = getBrowserIconSrc(name);
   if (!src) {
@@ -543,12 +590,34 @@ function tabKey(tab) {
 }
 
 function getFaviconFromUrl(url) {
-  if (!url) return null;
+  return null;
+}
+
+function normalizeServerUrl(value) {
   try {
-    const u = new URL(url);
-    if (INTERNAL_PROTOCOLS.includes(u.protocol)) return null;
-    return `https://www.google.com/s2/favicons?domain=${u.hostname}&sz=32`;
-  } catch { return null; }
+    const parsed = new URL(value || `ws://${LOOPBACK_HOST}:9234`);
+    const port = Number(parsed.port || '9234');
+    const isAllowed =
+      parsed.protocol === 'ws:' &&
+      parsed.hostname === LOOPBACK_HOST &&
+      !parsed.username &&
+      !parsed.password &&
+      !parsed.search &&
+      !parsed.hash &&
+      (parsed.pathname === '/' || parsed.pathname === '') &&
+      Number.isInteger(port) &&
+      port >= 1 &&
+      port <= 65535;
+
+    if (!isAllowed) return null;
+    return `ws://${LOOPBACK_HOST}:${port}`;
+  } catch {
+    return null;
+  }
+}
+
+function getPermissionOrigin(serverUrl) {
+  return `http://${LOOPBACK_HOST}/*`;
 }
 
 function simplifyUrl(url) {
@@ -611,7 +680,9 @@ btnEnableSync.addEventListener('click', async () => {
   btnEnableSync.textContent = 'Requesting…';
   try {
     // 1. Request host permission
-    const granted = await chrome.permissions.request({ origins: ['http://127.0.0.1:9234/*'] });
+    const granted = await chrome.permissions.request({
+      origins: [getPermissionOrigin(state?.settings?.serverUrl)]
+    });
     if (!granted) {
       showToast('Permission denied — sync requires local server access', 'error');
       return;

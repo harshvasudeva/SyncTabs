@@ -397,7 +397,7 @@ func isValidURL(rawURL string) bool {
 		return false
 	}
 	scheme := strings.ToLower(u.Scheme)
-	return scheme == "http" || scheme == "https" || scheme == "ftp"
+	return scheme == "http" || scheme == "https"
 }
 
 func truncate(s string, maxLen int) string {

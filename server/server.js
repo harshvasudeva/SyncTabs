@@ -130,7 +130,7 @@ function validateTabArray(tabs) {
 function isValidUrl(url) {
   try {
     const parsed = new URL(url);
-    return ['http:', 'https:', 'ftp:'].includes(parsed.protocol);
+    return ['http:', 'https:'].includes(parsed.protocol);
   } catch { return false; }
 }
 

@@ -18,7 +18,9 @@ companion/.vscode/
 
 # ─── Node ──────────────────────────────────────────────────────────────────
 node_modules/
+.gocache/
 package-lock.json
+!server/package-lock.json
 npm-debug.log*
 yarn-error.log*
 .npm

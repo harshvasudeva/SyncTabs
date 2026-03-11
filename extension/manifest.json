@@ -9,11 +9,7 @@
     "alarms"
   ],
   "optional_host_permissions": [
-    "http://127.0.0.1:9234/*",
-    "http://127.0.0.1:9235/*",
-    "http://127.0.0.1:9236/*",
-    "http://127.0.0.1:9237/*",
-    "http://127.0.0.1:9238/*"
+    "http://127.0.0.1/*"
   ],
   "background": {
     "service_worker": "background.js"

@@ -13,6 +13,7 @@ const DEFAULTS = {
   serverAutoDetect: true,
   browserNameOverride: '',
 };
+const LOOPBACK_HOST = '127.0.0.1';
 
 const HEARTBEAT_ALARM = 'synctabs-heartbeat';
 const SERVER_DETECT_ALARM = 'synctabs-server-detect';
@@ -49,10 +50,13 @@ async function loadSettings() {
   if (result.synctabs_settings) {
     settings = { ...DEFAULTS, ...result.synctabs_settings };
   }
+  settings.serverUrl = normalizeServerUrl(settings.serverUrl);
 }
 
 async function saveSettings(partial) {
-  settings = { ...settings, ...partial };
+  const next = { ...settings, ...partial };
+  next.serverUrl = normalizeServerUrl(next.serverUrl);
+  settings = next;
   await chrome.storage.local.set({ synctabs_settings: settings });
 }
 
@@ -76,6 +80,33 @@ function normalizeBrowserName(name) {
 function getEffectiveBrowserName(detectedName) {
   const override = normalizeBrowserName(settings.browserNameOverride);
   return override || detectedName;
+}
+
+function normalizeServerUrl(value) {
+  try {
+    const parsed = new URL(value || DEFAULTS.serverUrl);
+    const port = Number(parsed.port || '9234');
+    const isAllowed =
+      parsed.protocol === 'ws:' &&
+      parsed.hostname === LOOPBACK_HOST &&
+      !parsed.username &&
+      !parsed.password &&
+      !parsed.search &&
+      !parsed.hash &&
+      (parsed.pathname === '/' || parsed.pathname === '') &&
+      Number.isInteger(port) &&
+      port >= 1 &&
+      port <= 65535;
+
+    if (!isAllowed) return DEFAULTS.serverUrl;
+    return `ws://${LOOPBACK_HOST}:${port}`;
+  } catch {
+    return DEFAULTS.serverUrl;
+  }
+}
+
+function getPermissionOrigin() {
+  return `http://${LOOPBACK_HOST}/*`;
 }
 
 // ─── Unique Browser ID ────────────────────────────────────────────────────────
@@ -125,7 +156,7 @@ async function refreshBrowserName() {
 function isValidUrl(url) {
   try {
     const parsed = new URL(url);
-    return ['http:', 'https:', 'ftp:'].includes(parsed.protocol);
+    return ['http:', 'https:'].includes(parsed.protocol);
   } catch { return false; }
 }
 
@@ -230,7 +261,7 @@ async function probeServer() {
 
 // ─── Host Permission ──────────────────────────────────────────────────────────
 async function hasHostPermission() {
-  try { return await chrome.permissions.contains({ origins: ['http://127.0.0.1:9234/*'] }); }
+  try { return await chrome.permissions.contains({ origins: [getPermissionOrigin()] }); }
   catch { return false; }
 }
 

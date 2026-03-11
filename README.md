@@ -2,7 +2,7 @@
 
 > See and switch to every open tab across all your Chromium browsers — from one place, in real time.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue) ![MV3](https://img.shields.io/badge/Manifest-V3-green) ![Platforms](https://img.shields.io/badge/companion-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen) ![Browsers](https://img.shields.io/badge/browsers-Chrome%20%7C%20Edge%20%7C%20Brave%20%7C%20Opera-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.3-blue) ![MV3](https://img.shields.io/badge/Manifest-V3-green) ![Platforms](https://img.shields.io/badge/companion-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen) ![Browsers](https://img.shields.io/badge/browsers-Chrome%20%7C%20Edge%20%7C%20Brave%20%7C%20Opera-blueviolet)
 
 ---
 
@@ -15,7 +15,7 @@ Install SyncTabs in every Chromium browser you use. The popup instantly shows:
 - **Tabs from closed browsers** — their last session is always visible
 - **One click** on any remote tab opens it in your current browser
 
-No account. No cloud. No subscription. Everything stays on your machine.
+No account. No subscription. The current release line is local-first and keeps sync on your own machine.
 
 ---
 
@@ -60,7 +60,7 @@ No account. No cloud. No subscription. Everything stays on your machine.
 
 ### Step 2 — Install the Companion App *(for cross-browser sync)*
 
-The Companion is a lightweight background app (~10 MB). It runs a local WebSocket server on `localhost:9234`. It **never connects to the internet**.
+The Companion is a lightweight background app (~10 MB). It runs a local WebSocket server on `127.0.0.1` (default port `9234`, configurable to another localhost port). It **never connects to the internet**.
 
 **Download from [GitHub Releases](https://github.com/harshvasudeva/sync-it-up/releases/latest):**
 
@@ -70,7 +70,7 @@ The Companion is a lightweight background app (~10 MB). It runs a local WebSocke
 | macOS (Apple Silicon) | `synctabs-companion-darwin-arm64` |
 | macOS (Intel) | `synctabs-companion-darwin-amd64` |
 | Linux (x64) | `synctabs-companion-linux-amd64` |
-| Linux (.deb) | `synctabs-companion_1.0.0_amd64.deb` |
+| Linux (.deb) | `synctabs-companion_<version>_amd64.deb` |
 
 #### Windows
 
@@ -99,7 +99,7 @@ A tray icon appears in your menu bar. Right-click → **Start with Login** to au
 
 ```bash
 # Option A: .deb package (Ubuntu/Debian)
-sudo dpkg -i synctabs-companion_1.0.0_amd64.deb
+sudo dpkg -i synctabs-companion_<version>_amd64.deb
 synctabs-companion &
 
 # Option B: Binary
@@ -112,6 +112,8 @@ chmod +x synctabs-companion-linux-amd64
 ### Alternative: Run Dev Server (for development)
 
 If you're working on the extension or companion code, you can run the **Node.js development server** instead:
+
+Requires **Node.js 24 LTS**.
 
 ```bash
 # Windows
@@ -128,13 +130,13 @@ This will:
 
 Press **Ctrl+C** to stop.
 
-> **Note:** The dev server is useful for development. For production use, download the compiled Go companion app from [GitHub Releases](https://github.com/harshvasudeva/sync-it-up/releases) instead.
+> **Note:** The dev server is only for local development. Production builds and release artifacts come from the Go companion app, not from packaged Node binaries.
 
 ---
 
 ### Step 3 — Grant Permission (one-time, per browser)
 
-The extension needs permission to talk to `localhost:9234`:
+The extension needs permission to talk to `127.0.0.1`:
 
 1. Click the SyncTabs icon → open popup
 2. Click **Settings** (gear icon)
@@ -142,6 +144,17 @@ The extension needs permission to talk to `localhost:9234`:
 4. Confirm in the browser prompt
 
 The extension auto-detects the Companion within a few seconds. The status dot turns **green**.
+
+---
+
+## Platform Notes
+
+### Chromebook / ChromeOS
+
+- The extension works in **Local Mode** on Chromebook.
+- **Sync Mode is not currently supported as a normal Chromebook install path**, because there is no ChromeOS companion build in this repo.
+- Some Linux-enabled Chromebooks may be able to run the Linux companion experimentally, but that is not an officially supported setup.
+- A Chromebook-friendly sync option is planned for a future release line. See [ROADMAP.md](ROADMAP.md).
 
 ---
 
@@ -176,7 +189,7 @@ Right-click the tray icon for:
 Open via gear icon in the popup, or right-click toolbar icon → **Options**.
 
 - Enable / disable sync
-- Server URL (default `ws://127.0.0.1:9234`)
+- Server URL (default `ws://127.0.0.1:9234`, customizable to another localhost port)
 - Grant localhost permission
 - Test Connection
 - Clear cached remote tab data
@@ -188,7 +201,7 @@ Open via gear icon in the popup, or right-click toolbar icon → **Options**.
 ```
  Browser A (Chrome)          SyncTabs Companion           Browser B (Edge)
  ┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
- │  Extension      │◄───WS───│  localhost:9234   │───WS───►│  Extension      │
+ │  Extension      │◄───WS───│  127.0.0.1:<port> │───WS───►│  Extension      │
  │  (background.js)│         │                  │         │  (background.js)│
  └─────────────────┘         │  tabs.json       │         └─────────────────┘
                               │  (persists last  │
@@ -202,6 +215,7 @@ Open via gear icon in the popup, or right-click toolbar icon → **Options**.
 - Tab changes are pushed in real-time to all other connected browsers
 - The Companion persists tab data so closed-browser sessions remain visible
 - Everything is `127.0.0.1` only — nothing leaves your machine
+- The extension only accepts `ws://127.0.0.1:<port>` server URLs for the current release line
 
 ---
 
@@ -212,7 +226,7 @@ Open via gear icon in the popup, or right-click toolbar icon → **Options**.
 | `tabs` | Read your open tabs to display them |
 | `storage` | Save tab snapshots locally |
 | `alarms` | Periodic heartbeat to stay connected |
-| `http://127.0.0.1:9234/*` | **Optional** — only when sync is enabled |
+| `http://127.0.0.1/*` | **Optional** — only when sync is enabled |
 
 Full details: [PRIVACY.md](PRIVACY.md)
 
@@ -232,11 +246,14 @@ The binary is unsigned. Click **More info → Run anyway**. The source code is f
 **Extension shows wrong browser name (e.g. "Google Chrome" for Brave)**
 Browser detection uses the user-agent. Some browsers hide their identity. Each browser still has a unique ID and syncs correctly.
 
-**Port 9234 already in use**
-Another app is using the port. Edit `%APPDATA%\SyncTabs\config.json` and change the `port` value. Set the same value in extension Settings → Server URL.
+**Port already in use**
+Another app is using the selected localhost port. Edit `%APPDATA%\SyncTabs\config.json` and change the `port` value. Set the same value in extension Settings → Server URL.
 
 **Tabs not updating in real time**
 Chromium service workers can be suspended when idle. The extension reconnects automatically. If tabs seem stale, click the refresh button in the popup.
+
+**Can I use this on a Chromebook?**
+The extension works in local-only mode. Cross-browser sync on Chromebook is not officially supported yet because there is no ChromeOS companion build.
 
 ---
 
@@ -302,6 +319,17 @@ GOOS=linux GOARCH=amd64 go build -o synctabs-companion-linux-amd64 .
 ```
 
 > macOS and Linux builds require CGo and must be compiled on the target OS (or via GitHub Actions).
+
+---
+
+## Roadmap
+
+- Keep the current release line local-first and store-compliant.
+- Add stronger localhost companion hardening.
+- Explore optional cloud sync and WebRTC relay modes for future releases.
+- Add a Chromebook-friendly sync path that does not depend on a native companion install.
+
+See [ROADMAP.md](ROADMAP.md) for the current plan.
 
 ---
 
